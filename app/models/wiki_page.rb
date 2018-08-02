@@ -64,6 +64,7 @@ class WikiPage < ActiveRecord::Base
 
   after_initialize :check_and_mark_as_protected
   before_save :update_redirects
+  before_save :check_parent_id
   before_destroy :remove_redirects
 
   # eager load information about last updates, without loading text
@@ -237,6 +238,10 @@ class WikiPage < ActiveRecord::Base
 
   def to_param
     slug || title.to_url
+  end
+
+  def check_parent_id
+    raise 'WAT SE HECK' if (!parent_id.nil? && parent_id.zero?)
   end
 
   def save_with_content
